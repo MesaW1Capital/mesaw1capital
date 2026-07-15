@@ -93,6 +93,14 @@ input::placeholder{color:var(--pet650);font-weight:400}
 .chk{font-size:12.5px;padding:9px 12px;border-radius:8px;margin-top:14px;font-weight:600}
 .chk.ok{background:rgba(95,222,212,.1);color:var(--turq)}
 .chk.warn{background:rgba(255,180,90,.12);color:#ffce8a}
+.alloc-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;font-size:12.5px}
+.alloc-row .lbl{opacity:.85}
+.alloc-row .v{font-variant-numeric:tabular-nums;font-weight:700}
+.alloc-bar{height:8px;border-radius:6px;background:rgba(255,255,255,.06);overflow:hidden;margin-top:6px}
+.alloc-bar i{display:block;height:100%;transition:width .25s ease}
+.chk.ok .alloc-bar i{background:var(--turq)}
+.chk.warn .alloc-bar i{background:#ffb45a}
+.chk .status{display:block;margin-top:9px;font-size:12px;opacity:.95}
 
 footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--pet650);font-size:12px;text-align:center}
 footer a{color:var(--pet350)}
@@ -306,7 +314,7 @@ function buildGeneric(){
     const row=document.createElement("div"); row.className="prow";
     row.innerHTML=`<label style="margin:0;align-self:center">${c.n}</label>
       <input type="text" class="val money gval" inputmode="decimal" placeholder="R$" data-gi="${i}">
-      <div class="pctf"><input type="text" inputmode="decimal" data-pct class="grate" value="${(c.r*100).toFixed(2)}" step="0.05" data-gr="${i}"><span>%</span></div>`;
+      <div class="pctf"><input type="text" inputmode="decimal" data-pct class="grate" value="${(c.r*1000).toFixed(0)}" step="1" data-gr="${i}"><span>%</span></div>`;
     attachMoney(row.querySelector(".gval"));
     row.querySelector(".grate").addEventListener("input",calc);
     g.appendChild(row);
@@ -333,7 +341,7 @@ function calc(){
   document.querySelectorAll("#genList .prow").forEach(r=>{
     const i=+r.querySelector(".gval").dataset.gi;
     const val=parseMoney(r.querySelector(".gval").value);
-    let rate=(parseFloat(String(r.querySelector(".grate").value).replace(",","."))||0)/100;
+    let rate=(parseFloat(String(r.querySelector(".grate").value).replace(",","."))||0)/1000;
     if(GENERIC[i].rv && excecaoRV) rate=0;
     cb+=val*rate; alloc+=val;
   });
@@ -366,18 +374,27 @@ function calc(){
   document.getElementById("barNet").style.width=(Math.max(net,0)/g*100)+"%";
 
   const chk=document.getElementById("chk");
-  if(auc<=0){chk.className="chk warn";chk.textContent="Informe o patrimônio (AuC)";}
-  else{
+  if(auc<=0){
+    chk.className="chk warn";
+    chk.innerHTML='<div class="alloc-row"><span class="lbl">Informe o patrimônio (AuC)</span></div>';
+  } else {
     const rest=auc-alloc;
+    const pctAlloc = Math.min(100, alloc/auc*100);
+    const pctRest  = Math.max(0, rest/auc*100);
     const ok=Math.abs(rest)<1;
+    const over=rest<0;
     chk.className="chk "+(ok?"ok":"warn");
-    if(ok){
-      chk.textContent="✓ Alocação completa • "+BRL(alloc)+" de "+BRL(auc);
-    } else if(rest>0){
-      chk.textContent="Disponível para alocar: "+BRL(rest)+" • "+BRL(alloc)+" de "+BRL(auc);
-    } else {
-      chk.textContent="Excedeu em "+BRL(-rest)+" • "+BRL(alloc)+" de "+BRL(auc);
-    }
+    let status;
+    if(ok)      status="✓ Alocação completa";
+    else if(over) status="Excedeu em "+BRL(-rest)+" ("+PCT(-rest/auc)+")";
+    else        status="Disponível para alocar: "+BRL(rest)+" ("+PCT(rest/auc)+")";
+    chk.innerHTML =
+      '<div class="alloc-row"><span class="lbl">Alocado</span>'+
+        '<span class="v">'+BRL(alloc)+' <span style="opacity:.7;font-weight:500">('+PCT(alloc/auc)+')</span></span></div>'+
+      '<div class="alloc-row"><span class="lbl">Disponível</span>'+
+        '<span class="v">'+BRL(Math.max(0,rest))+' <span style="opacity:.7;font-weight:500">('+PCT(Math.max(0,pctRest)/100)+')</span></span></div>'+
+      '<div class="alloc-bar"><i style="width:'+Math.min(100,pctAlloc)+'%"></i></div>'+
+      '<span class="status">'+status+'</span>';
   }
 }
 
