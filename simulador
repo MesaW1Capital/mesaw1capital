@@ -65,9 +65,9 @@ input::placeholder{color:var(--pet650);font-weight:400}
 .addbtn:hover{border-color:var(--turq);color:var(--turq)}
 .blockhead{font-size:13px;font-weight:700;color:#fff;margin:18px 0 10px;display:flex;justify-content:space-between}
 .blockhead small{color:var(--pet650);font-weight:500;font-size:11.5px}
-.glist .prow{grid-template-columns:1fr 140px 92px}
+.glist .prow{grid-template-columns:1fr 140px 118px}
 .pctf{position:relative}
-.pctf input{padding-right:26px;text-align:right}
+.pctf input{padding-right:52px;text-align:right}
 .pctf > span{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--pet650);font-size:13px;font-weight:600;pointer-events:none}
 
 /* results panel */
@@ -97,6 +97,37 @@ input::placeholder{color:var(--pet650);font-weight:400}
 footer{border-top:1px solid var(--line);padding:22px 0 40px;color:var(--pet650);font-size:12px;text-align:center}
 footer a{color:var(--pet350)}
 .note{font-size:11.5px;color:var(--pet650);margin-top:14px;line-height:1.6}
+
+/* custom number stepper */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+.pctf{position:relative}
+.pctf .stp{position:absolute;right:26px;top:3px;bottom:3px;width:16px;display:flex;flex-direction:column;justify-content:stretch;gap:1px}
+.pctf .stp button{flex:1;background:rgba(95,222,212,.08);border:1px solid var(--line);color:var(--turq);
+  border-radius:4px;cursor:pointer;padding:0;display:grid;place-items:center;transition:.15s;font-family:inherit}
+.pctf .stp button:hover{background:var(--turq);color:var(--petroleo);border-color:var(--turq)}
+.pctf .stp button svg{width:8px;height:8px;display:block}
+.pctf input{padding-right:52px !important}
+
+/* custom combobox for funds/prev */
+.combo{position:relative}
+.combo input{padding-right:34px}
+.combo .chev{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:24px;height:24px;
+  background:rgba(95,222,212,.1);border:1px solid var(--line);border-radius:6px;color:var(--turq);
+  display:grid;place-items:center;cursor:pointer;transition:.15s}
+.combo .chev:hover{background:var(--turq);color:var(--petroleo);border-color:var(--turq)}
+.combo .chev svg{width:10px;height:10px}
+.combo .drop{position:absolute;left:0;right:0;top:calc(100% + 4px);background:#08222a;border:1px solid var(--turq);
+  border-radius:9px;max-height:260px;overflow-y:auto;z-index:50;display:none;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.combo.open .drop{display:block}
+.combo .drop .opt{padding:9px 12px;font-size:13px;color:var(--pet100);cursor:pointer;border-bottom:1px solid var(--line)}
+.combo .drop .opt:last-child{border:none}
+.combo .drop .opt:hover,.combo .drop .opt.hi{background:var(--pet800);color:#fff}
+.combo .drop .empty{padding:12px;font-size:12.5px;color:var(--pet650);text-align:center}
+.combo .drop::-webkit-scrollbar{width:8px}
+.combo .drop::-webkit-scrollbar-thumb{background:var(--pet800);border-radius:4px}
+
 </style>
 </head>
 <body>
@@ -117,7 +148,7 @@ footer a{color:var(--pet350)}
         <div class="field"><label>Patrimônio na conta XP (AuC)</label>
           <input type="text" class="money" id="auc" inputmode="decimal" value="1000000"></div>
         <div class="field"><label>Taxa Fee Based (% a.a.)</label>
-          <div class="pctf"><input type="number" id="taxa" value="0.80" min="0.4" max="1.5" step="0.05"><span>%</span></div>
+          <div class="pctf"><input type="text" inputmode="decimal" data-pct id="taxa" value="0.80" min="0.4" max="1.5" step="0.05"><span>%</span></div>
           <div class="hint">entre 0,40% e 1,50%</div></div>
         <div class="field"><label>Exceção RV?</label>
           <div class="seg" id="segrv">
@@ -136,7 +167,7 @@ footer a{color:var(--pet350)}
       <div id="prevList"></div>
       <button class="addbtn" data-add="prev">+ adicionar previdência</button>
 
-      <div class="blockhead">Demais classes <small>taxa genérica (editável)</small></div>
+      <div class="blockhead">Demais classes <small>comissão total (editável)</small></div>
       <div class="glist" id="genList"></div>
     </div>
 
@@ -146,9 +177,9 @@ footer a{color:var(--pet350)}
         <div class="field"><label>Giro anual em bolsa (R$)</label>
           <input type="text" class="money" id="giro" inputmode="decimal" value="200000"></div>
         <div class="field"><label>Corretagem tabela (%)</label>
-          <div class="pctf"><input type="number" id="corr" value="0.50" min="0" step="0.05"><span>%</span></div></div>
+          <div class="pctf"><input type="text" inputmode="decimal" data-pct id="corr" value="0.50" min="0" step="0.05"><span>%</span></div></div>
         <div class="field"><label>Desconto Fee Based</label>
-          <div class="pctf"><input type="number" id="desc" value="85" min="0" max="100" step="1"><span>%</span></div>
+          <div class="pctf"><input type="text" inputmode="decimal" data-pct id="desc" value="85" min="0" max="100" step="1"><span>%</span></div>
           <div class="hint">85% no modelo atual</div></div>
       </div>
     </div>
@@ -220,17 +251,42 @@ function rateOf(list,name){const m=list.find(x=>x.n===name);return m?m.r:0;}
 // portfolio rows (fund/prev): name input + value + rate display + delete
 function addPortRow(kind, name="", val=0){
   const list = kind==="fund" ? document.getElementById("fundList") : document.getElementById("prevList");
+  const source = kind==="fund" ? DATA.funds : DATA.prev;
   const row=document.createElement("div"); row.className="prow";
   row.innerHTML = `
-    <input type="text" class="nm" list="${kind==='fund'?'dlFund':'dlPrev'}" placeholder="digite para buscar..." value="${name.replace(/"/g,'&quot;')}">
+    <div class="combo">
+      <input type="text" class="nm" autocomplete="off" placeholder="digite para buscar..." value="${name.replace(/"/g,'&quot;')}">
+      <button type="button" class="chev" aria-label="abrir lista"><svg viewBox="0 0 10 10"><path d="M1 3 L5 7 L9 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="drop"></div>
+    </div>
     <input type="text" class="val money" inputmode="decimal" placeholder="R$">
     <div class="rate">—</div>
     <button class="del" title="remover">×</button>`;
+  const combo=row.querySelector(".combo");
   const nameI=row.querySelector(".nm"), valI=row.querySelector(".val");
   const rateD=row.querySelector(".rate");
+  const drop=row.querySelector(".drop");
+  const chev=row.querySelector(".chev");
   if(val) valI.value=formatMoney(val);
-  const upd=()=>{const r=rateOf(kind==="fund"?DATA.funds:DATA.prev,nameI.value);rateD.textContent=r?PCT3(r):"—";calc();};
-  nameI.addEventListener("input",upd); attachMoney(valI);
+  const upd=()=>{const r=rateOf(source,nameI.value);rateD.textContent=r?PCT3(r):"—";calc();};
+  function renderList(filter){
+    const q=(filter||"").trim().toLowerCase();
+    const items = q ? source.filter(x=>x.n.toLowerCase().includes(q)).slice(0,200)
+                    : source.slice(0,200);
+    if(!items.length){ drop.innerHTML=`<div class="empty">Nenhum resultado</div>`; return; }
+    drop.innerHTML=items.map(x=>`<div class="opt" data-n="${x.n.replace(/"/g,'&quot;')}">${x.n}</div>`).join("");
+    drop.querySelectorAll(".opt").forEach(o=>{
+      o.addEventListener("mousedown",e=>{e.preventDefault();nameI.value=o.dataset.n;combo.classList.remove("open");upd();});
+    });
+  }
+  const openIt=()=>{renderList(nameI.value);combo.classList.add("open");};
+  const closeIt=()=>combo.classList.remove("open");
+  nameI.addEventListener("focus",openIt);
+  nameI.addEventListener("input",()=>{openIt();upd();});
+  chev.addEventListener("click",e=>{e.preventDefault();if(combo.classList.contains("open")){closeIt();}else{renderList("");combo.classList.add("open");nameI.focus();}});
+  nameI.addEventListener("blur",()=>setTimeout(closeIt,120));
+  document.addEventListener("click",e=>{if(!combo.contains(e.target))closeIt();});
+  attachMoney(valI);
   row.querySelector(".del").addEventListener("click",()=>{row.remove();calc();});
   list.appendChild(row); upd();
 }
@@ -242,7 +298,7 @@ function buildGeneric(){
     const row=document.createElement("div"); row.className="prow";
     row.innerHTML=`<label style="margin:0;align-self:center">${c.n}</label>
       <input type="text" class="val money gval" inputmode="decimal" placeholder="R$" data-gi="${i}">
-      <div class="pctf"><input type="number" class="grate" value="${(c.r*100).toFixed(2)}" step="0.05" data-gr="${i}"><span>%</span></div>`;
+      <div class="pctf"><input type="text" inputmode="decimal" data-pct class="grate" value="${(c.r*100).toFixed(2)}" step="0.05" data-gr="${i}"><span>%</span></div>`;
     attachMoney(row.querySelector(".gval"));
     row.querySelector(".grate").addEventListener("input",calc);
     g.appendChild(row);
@@ -251,7 +307,7 @@ function buildGeneric(){
 
 function calc(){
   const auc=parseMoney(document.getElementById("auc").value);
-  const taxa=(+document.getElementById("taxa").value||0)/100;
+  const taxa=(parseFloat(String(document.getElementById("taxa").value).replace(",","."))||0)/100;
   let cb=0, alloc=0;
   // funds
   document.querySelectorAll("#fundList .prow").forEach(r=>{
@@ -269,14 +325,14 @@ function calc(){
   document.querySelectorAll("#genList .prow").forEach(r=>{
     const i=+r.querySelector(".gval").dataset.gi;
     const val=parseMoney(r.querySelector(".gval").value);
-    let rate=(+r.querySelector(".grate").value||0)/100;
+    let rate=(parseFloat(String(r.querySelector(".grate").value).replace(",","."))||0)/100;
     if(GENERIC[i].rv && excecaoRV) rate=0;
     cb+=val*rate; alloc+=val;
   });
   // corretagem
   const giro=parseMoney(document.getElementById("giro").value);
-  const corr=(+document.getElementById("corr").value||0)/100;
-  const desc=(+document.getElementById("desc").value||0)/100;
+  const corr=(parseFloat(String(document.getElementById("corr").value).replace(",","."))||0)/100;
+  const desc=(parseFloat(String(document.getElementById("desc").value).replace(",","."))||0)/100;
   const corEcon = excecaoRV ? 0 : giro*corr*desc;
 
   const gross=auc*taxa;
@@ -324,6 +380,56 @@ document.querySelectorAll("#segrv button").forEach(b=>b.addEventListener("click"
 }));
 ["taxa","corr","desc"].forEach(id=>document.getElementById(id).addEventListener("input",calc));
 calc();
+
+// Decorate number inputs with custom stepper arrows
+function decorateSteppers(root){
+  (root||document).querySelectorAll('.pctf input[data-pct]:not([data-stp]), .pctf input[type=number]:not([data-stp])').forEach(inp=>{
+    inp.setAttribute('data-stp','1');
+    const wrap=inp.parentElement;
+    const stp=document.createElement('div'); stp.className='stp';
+    stp.innerHTML=`
+      <button type="button" data-d="up" aria-label="aumentar"><svg viewBox="0 0 10 10"><path d="M1 7 L5 3 L9 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button type="button" data-d="dn" aria-label="diminuir"><svg viewBox="0 0 10 10"><path d="M1 3 L5 7 L9 3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+    wrap.appendChild(stp);
+    const step=parseFloat(inp.step)||1;
+    const bump=(dir)=>{
+      const v=parseFloat(String(inp.value).replace(',','.'))||0;
+      const min=inp.min!==''?parseFloat(inp.min):-Infinity;
+      const max=inp.max!==''?parseFloat(inp.max):Infinity;
+      let nv=Math.min(max,Math.max(min, +(v + dir*step).toFixed(4)));
+      inp.value=nv;
+      inp.dispatchEvent(new Event('input',{bubbles:true}));
+      inp.dispatchEvent(new Event('change',{bubbles:true}));
+    };
+    stp.querySelector('[data-d=up]').addEventListener('click',()=>bump(1));
+    stp.querySelector('[data-d=dn]').addEventListener('click',()=>bump(-1));
+  });
+}
+decorateSteppers();
+// re-decorate whenever generic list is (re)built
+const _obs=new MutationObserver(()=>decorateSteppers());
+_obs.observe(document.body,{childList:true,subtree:true});
+
+
+// Format % inputs with comma decimal separator (pt-BR)
+function fmtPct(v){
+  const n=parseFloat(String(v).replace(',','.'));
+  if(isNaN(n))return '';
+  // preserve up to 2 decimals, comma
+  return n.toFixed(2).replace('.', ',');
+}
+function attachPctInputs(){
+  document.querySelectorAll('input[data-pct]:not([data-pct-ready])').forEach(inp=>{
+    inp.setAttribute('data-pct-ready','1');
+    if(inp.value) inp.value=fmtPct(inp.value);
+    inp.addEventListener('blur',()=>{ if(inp.value) inp.value=fmtPct(inp.value); });
+    inp.addEventListener('focus',()=>inp.select());
+  });
+}
+attachPctInputs();
+const _obs2=new MutationObserver(()=>attachPctInputs());
+_obs2.observe(document.body,{childList:true,subtree:true});
+
 </script>
 </body>
 </html>
