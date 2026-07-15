@@ -368,12 +368,16 @@ function calc(){
   const chk=document.getElementById("chk");
   if(auc<=0){chk.className="chk warn";chk.textContent="Informe o patrimônio (AuC)";}
   else{
-    const diff=alloc-auc;
-    const ok=Math.abs(diff)<1;
-    const sign=diff>0?"+":(diff<0?"−":"");
-    const diffTxt=ok?BRL(0):(sign+BRL(Math.abs(diff)));
+    const rest=auc-alloc;
+    const ok=Math.abs(rest)<1;
     chk.className="chk "+(ok?"ok":"warn");
-    chk.textContent=(ok?"✓ ":"")+"Alocado "+BRL(alloc)+" de "+BRL(auc)+" ("+diffTxt+")";
+    if(ok){
+      chk.textContent="✓ Alocação completa • "+BRL(alloc)+" de "+BRL(auc);
+    } else if(rest>0){
+      chk.textContent="Disponível para alocar: "+BRL(rest)+" • "+BRL(alloc)+" de "+BRL(auc);
+    } else {
+      chk.textContent="Excedeu em "+BRL(-rest)+" • "+BRL(alloc)+" de "+BRL(auc);
+    }
   }
 }
 
