@@ -283,6 +283,14 @@ function addPortRow(kind, name="", val=0){
   const closeIt=()=>combo.classList.remove("open");
   nameI.addEventListener("focus",openIt);
   nameI.addEventListener("input",()=>{openIt();upd();});
+  nameI.addEventListener("keydown",e=>{
+    if((e.key==="Backspace" || e.key==="Delete") && nameI.value.length>0){
+      e.preventDefault();
+      nameI.value="";
+      openIt();
+      upd();
+    }
+  });
   chev.addEventListener("click",e=>{e.preventDefault();if(combo.classList.contains("open")){closeIt();}else{renderList("");combo.classList.add("open");nameI.focus();}});
   nameI.addEventListener("blur",()=>setTimeout(closeIt,120));
   document.addEventListener("click",e=>{if(!combo.contains(e.target))closeIt();});
@@ -359,8 +367,14 @@ function calc(){
 
   const chk=document.getElementById("chk");
   if(auc<=0){chk.className="chk warn";chk.textContent="Informe o patrimônio (AuC)";}
-  else if(Math.abs(alloc-auc)<1){chk.className="chk ok";chk.textContent="✓ Alocação confere com o AuC";}
-  else{chk.className="chk warn";chk.textContent="Alocado "+BRL(alloc)+" de "+BRL(auc)+" ("+(alloc>auc?"+":"")+BRL(alloc-auc)+")";}
+  else{
+    const diff=alloc-auc;
+    const ok=Math.abs(diff)<1;
+    const sign=diff>0?"+":(diff<0?"−":"");
+    const diffTxt=ok?BRL(0):(sign+BRL(Math.abs(diff)));
+    chk.className="chk "+(ok?"ok":"warn");
+    chk.textContent=(ok?"✓ ":"")+"Alocado "+BRL(alloc)+" de "+BRL(auc)+" ("+diffTxt+")";
+  }
 }
 
 // init
