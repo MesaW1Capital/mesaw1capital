@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Painel V1SÃO — W1 Capital · Manual de operação</title>
+<meta name="description" content="Resumo, segurança e manual de operação do Painel V1SÃO da W1 Capital." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --petroleo:#022028; --onix:#0a181c;
+    --petroleo-900:#1f4148; --petroleo-800:#3e6a6d; --petroleo-650:#6d9899;
+    --petroleo-500:#84afaf; --petroleo-350:#afcecd; --petroleo-200:#d3e0df;
+    --petroleo-100:#ebf0f0; --turquesa:#5fded4; --bg:#f7faf9; --white:#fff;
+    --muted:#5b7275;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Public Sans',system-ui,sans-serif;background:var(--bg);color:var(--petroleo);-webkit-font-smoothing:antialiased;line-height:1.5}
+  ::selection{background:var(--turquesa);color:var(--petroleo)}
+  a{color:inherit;text-decoration:none}
+  code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--white);border:1px solid var(--petroleo-200);border-radius:4px;padding:1px 6px;font-size:.9em;color:var(--petroleo)}
+  strong{font-weight:600;color:var(--petroleo)}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:30;background:rgba(247,250,249,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--petroleo-200)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1120px;margin:0 auto}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo-mark{width:36px;height:36px;background:var(--petroleo);color:var(--turquesa);display:grid;place-items:center;border-radius:6px;font-weight:700;font-size:14px;letter-spacing:-.02em}
+  .logo-name{font-size:14px;font-weight:600;line-height:1.1}
+  .logo-sub{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--petroleo-650);margin-top:2px}
+  .nav-links{display:none;gap:28px;font-size:14px;color:var(--petroleo-800)}
+  .nav-links a:hover{color:var(--petroleo)}
+  .pill{display:none;font-size:12px;font-weight:500;color:var(--petroleo-800);background:var(--white);border:1px solid var(--petroleo-200);border-radius:999px;padding:6px 12px}
+  @media(min-width:768px){.nav-links{display:flex}.pill{display:inline-flex}}
+
+  /* HERO */
+  .hero{position:relative;overflow:hidden;background:var(--petroleo);color:var(--white)}
+  .hero::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.7;
+    background:radial-gradient(60% 80% at 85% 0%,rgba(95,222,212,.22),transparent 60%),
+               radial-gradient(50% 60% at 0% 100%,rgba(109,152,153,.35),transparent 55%)}
+  .hero-inner{position:relative;display:grid;grid-template-columns:1fr;gap:56px;padding:96px 24px;max-width:1120px;margin:0 auto}
+  @media(min-width:768px){.hero-inner{grid-template-columns:2fr 1fr;padding:128px 24px}}
+  .chips{display:flex;flex-wrap:wrap;gap:12px}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;padding:6px 14px;border-radius:999px;font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase}
+  .chip .dot{width:6px;height:6px;background:var(--turquesa);border-radius:999px}
+  h1{margin-top:32px;font-weight:500;font-size:clamp(40px,7vw,80px);letter-spacing:-.02em;line-height:1.02}
+  h1 .accent{display:block;color:var(--turquesa)}
+  .hero p{margin-top:32px;max-width:640px;color:var(--petroleo-200);font-size:19px;line-height:1.6}
+  .ctas{margin-top:40px;display:flex;flex-wrap:wrap;gap:12px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-primary{background:var(--turquesa);color:var(--petroleo)}
+  .btn-ghost{color:#fff;border:1px solid rgba(211,224,223,.4)}
+  .btn-ghost:hover{background:rgba(255,255,255,.05);transform:none}
+  .stats{border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);border-radius:16px;padding:24px;backdrop-filter:blur(6px)}
+  .stats h4{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--turquesa)}
+  .stats dl{margin-top:20px;display:flex;flex-direction:column;gap:14px}
+  .stats .row{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.1);font-size:14px}
+  .stats .row:last-child{border:0;padding-bottom:0}
+  .stats dt{color:var(--petroleo-200)}
+  .stats dd{color:#fff;font-weight:500}
+
+  /* SECTIONS */
+  section.band{background:rgba(235,240,240,.6);border-top:1px solid var(--petroleo-200);border-bottom:1px solid var(--petroleo-200)}
+  .section{padding:96px 0}
+  .section-head{margin-bottom:40px;max-width:768px}
+  .eyebrow{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--petroleo-650)}
+  .eyebrow .num{color:var(--turquesa);font-family:ui-monospace,monospace}
+  .eyebrow .line{height:1px;width:32px;background:var(--petroleo-350)}
+  .section-head h2{margin-top:16px;font-weight:500;font-size:clamp(28px,4vw,40px);letter-spacing:-.02em;line-height:1.15;color:var(--petroleo)}
+  .lead{margin-top:16px;color:var(--muted);font-size:17px;line-height:1.65}
+
+  /* CARDS */
+  .grid{display:grid;gap:20px;grid-template-columns:1fr}
+  @media(min-width:768px){.grid-2{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}}
+  @media(min-width:1024px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+  .card{background:#fff;border:1px solid var(--petroleo-200);border-radius:16px;padding:26px;transition:border-color .2s}
+  .card:hover{border-color:var(--petroleo-350)}
+  .card h3{font-size:18px;font-weight:600;color:var(--petroleo);margin-top:4px}
+  .card p{margin-top:8px;color:var(--muted);font-size:15px;line-height:1.65}
+  .card .head{display:flex;align-items:flex-start;gap:16px}
+  .icon{flex-shrink:0;width:44px;height:44px;background:var(--petroleo-100);color:var(--petroleo-800);display:grid;place-items:center;border-radius:8px;font-size:18px}
+  .card .row-top{display:flex;align-items:center;gap:12px}
+  .card .row-top .num{font-family:ui-monospace,monospace;font-size:12px;color:var(--petroleo-650)}
+  .card .row-top .line{height:1px;flex:1;background:var(--petroleo-200)}
+  .card .row-top .badge{color:var(--petroleo-800)}
+  .steps{margin-top:16px;display:flex;flex-direction:column;gap:12px;color:var(--muted);font-size:15px;line-height:1.6}
+  .steps li{display:flex;gap:12px;list-style:none}
+  .steps .n{font-family:ui-monospace,monospace;color:var(--petroleo-800);flex-shrink:0}
+  .note{margin-top:16px;background:rgba(235,240,240,.6);border:1px solid var(--petroleo-200);border-radius:8px;padding:12px 16px;font-size:14px;color:var(--muted)}
+  .warn{margin-top:32px;display:flex;gap:12px;align-items:flex-start;background:rgba(95,222,212,.12);border:1px solid rgba(95,222,212,.4);border-radius:16px;padding:20px}
+  .warn .ic{font-size:20px}
+  .warn p{color:var(--petroleo-900);font-size:14px;line-height:1.6}
+
+  /* TABLE */
+  .tbl-wrap{overflow:hidden;border:1px solid var(--petroleo-200);border-radius:16px;background:#fff;margin-top:16px}
+  table{width:100%;border-collapse:collapse;font-size:14px;text-align:left}
+  thead{background:var(--petroleo);color:#fff}
+  th,td{padding:16px 20px;vertical-align:top}
+  th{font-weight:500}
+  tbody tr{border-top:1px solid var(--petroleo-200)}
+  tbody td:first-child{font-weight:500;color:var(--petroleo)}
+  tbody td:not(:first-child){color:var(--muted)}
+
+  /* CHECKLIST */
+  .check{display:grid;gap:12px;grid-template-columns:1fr;list-style:none}
+  @media(min-width:768px){.check{grid-template-columns:1fr 1fr}}
+  .check li{display:flex;gap:12px;background:#fff;border:1px solid var(--petroleo-200);border-radius:12px;padding:16px 20px;font-size:15px;color:var(--petroleo)}
+  .check li.pending{background:rgba(255,255,255,.6);border-style:dashed;border-color:var(--petroleo-350);color:var(--muted)}
+  .check .mk{color:var(--petroleo-800);flex-shrink:0}
+  .check .pending .mk{color:var(--petroleo-650)}
+
+  /* NUMBERED STEPS */
+  .plist{display:flex;flex-direction:column;gap:16px;list-style:none}
+  .plist li{display:flex;gap:20px;background:#fff;border:1px solid var(--petroleo-200);border-radius:16px;padding:24px}
+  .plist .n{width:40px;height:40px;flex-shrink:0;background:var(--petroleo);color:var(--turquesa);display:grid;place-items:center;border-radius:8px;font-family:ui-monospace,monospace;font-size:14px}
+  .plist h3{font-size:16px;font-weight:600;color:var(--petroleo)}
+  .plist p{margin-top:6px;color:var(--muted);font-size:15px;line-height:1.65}
+
+  /* FOOTER */
+  footer{background:var(--petroleo);color:#fff;margin-top:0}
+  .foot{max-width:1120px;margin:0 auto;padding:56px 24px}
+  .foot-top{display:flex;flex-direction:column;gap:32px;justify-content:space-between}
+  @media(min-width:768px){.foot-top{flex-direction:row;align-items:flex-end}}
+  .foot p{margin-top:20px;max-width:480px;color:var(--petroleo-200);font-size:14px;line-height:1.65}
+  .foot .meta{color:var(--petroleo-200);font-size:14px}
+  .foot .meta .lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--turquesa)}
+  .foot-bot{margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:var(--petroleo-200)}
+  .foot .logo-name{color:#fff}
+  .foot .logo-sub{color:var(--turquesa)}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-mark">W1</div>
+      <div>
+        <div class="logo-name">W1 Capital</div>
+        <div class="logo-sub">Painel V1SÃO</div>
+      </div>
+    </div>
+    <nav class="nav-links">
+      <a href="#resumo">Resumo</a>
+      <a href="#seguranca">Segurança</a>
+      <a href="#acessos">Acessos</a>
+      <a href="#atualizacao">Atualização</a>
+      <a href="#menu">Menu W1</a>
+    </nav>
+    <span class="pill">Documento de referência</span>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="chips">
+        <span class="chip"><span class="dot"></span>W1 Capital · Interno</span>
+        <span class="chip">Versão 1 · Painel V1SÃO</span>
+      </div>
+      <h1>Painel V1SÃO<span class="accent">Resumo, segurança e manual de operação.</span></h1>
+      <p>Guarde este documento — ele resume tudo o que foi feito e serve de manual para o dia a dia: adicionar e remover acessos, atualizar dados e publicar mudanças.</p>
+      <div class="ctas">
+        <a href="#resumo" class="btn btn-primary">Começar pelo resumo →</a>
+        <a href="#acessos" class="btn btn-ghost">Ir para acessos</a>
+      </div>
+    </div>
+    <div>
+      <div class="stats">
+        <h4>Estado atual</h4>
+        <dl>
+          <div class="row"><dt>Assessores em fatias</dt><dd>115</dd></div>
+          <div class="row"><dt>Times consolidados</dt><dd>21</dd></div>
+          <div class="row"><dt>Rebuilds diários</dt><dd>~11h · ~13h</dd></div>
+          <div class="row"><dt>Domínio permitido</dt><dd>@w1capital.com.br</dd></div>
+          <div class="row"><dt>OAuth</dt><dd>Em produção · Externo</dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section id="resumo" class="section">
+  <div class="wrap">
+    <header class="section-head">
+      <div class="eyebrow"><span class="num">01</span><span class="line"></span><span>O que foi feito</span></div>
+      <h2>De 150 mil linhas ao vivo para uma fatia por pessoa em segundos.</h2>
+      <p class="lead">O painel lia as abas gigantes (Under e Over ~150 mil linhas, Granular ~20 mil) ao vivo a cada acesso — por isso demorava — e faltava um controle individual e seguro por e-mail.</p>
+    </header>
+    <div class="grid grid-2">
+      <div class="card"><div class="head"><div class="icon">⚡</div><div><h3>Velocidade — "fatias" (shards)</h3><p>Um gatilho diário lê as abas pesadas <strong>uma única vez</strong>, quebra os dados por assessor e por time, e grava um JSON pequeno por pessoa no Drive. No login, o painel lê <strong>só a fatia daquela pessoa</strong> → carrega em segundos. Se a fatia não existir, ele cai no modo "ao vivo" automaticamente.</p></div></div></div>
+      <div class="card"><div class="head"><div class="icon">👥</div><div><h3>Líderes leves + drill-down</h3><p>A fatia do líder guarda só o consolidado (Visão Líder PJ1/PJ2). O detalhe cliente-a-cliente carrega quando o líder escolhe um assessor no topo. Exemplo real: Mesa Digital caiu de <strong>~8&nbsp;MB para ~5&nbsp;KB</strong>.</p></div></div></div>
+      <div class="card"><div class="head"><div class="icon">🔒</div><div><h3>Segurança OAuth</h3><p>O Client Secret saiu do código e foi para as <em>Propriedades do Script</em> (e foi rotacionado). App publicado como "Em produção" (Externo). Trava de domínio ativa, e login abre direto no painel.</p></div></div></div>
+      <div class="card"><div class="head"><div class="icon">↻</div><div><h3>Atualização imediata</h3><p>O cache é versionado: rodar "Reconstruir fatias" reflete os dados novos <strong>na hora</strong>. O teste <code>testarAmostra</code> confirmou que as fatias gravadas são idênticas ao cálculo ao vivo.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="seguranca" class="band">
+  <div class="wrap section">
+    <header class="section-head">
+      <div class="eyebrow"><span class="num">02</span><span class="line"></span><span>Camadas de segurança</span></div>
+      <h2>Cinco camadas protegem o painel hoje.</h2>
+      <p class="lead">Cada camada é independente. Precisa passar por todas para ver qualquer dado.</p>
+    </header>
+    <ol class="grid grid-3" style="list-style:none">
+      <li class="card"><div class="row-top"><span class="num">01</span><span class="line"></span><span class="badge">🔐</span></div><h3 style="margin-top:16px">Login Google (OAuth)</h3><p>Só quem tem uma conta Google consegue tentar entrar.</p></li>
+      <li class="card"><div class="row-top"><span class="num">02</span><span class="line"></span><span class="badge">🛡</span></div><h3 style="margin-top:16px">Trava de domínio</h3><p>Apenas e-mails @w1capital.com.br passam do login. Qualquer outro recebe "Acesso restrito a e-mails corporativos" e nem entra.</p></li>
+      <li class="card"><div class="row-top"><span class="num">03</span><span class="line"></span><span class="badge">👥</span></div><h3 style="margin-top:16px">Allowlist nas abas</h3><p>Dos que passam, só quem está nas abas "Acessos Individuais" / "Acessos Time" (com e-mail preenchido) vê dados.</p></li>
+      <li class="card"><div class="row-top"><span class="num">04</span><span class="line"></span><span class="badge">✦</span></div><h3 style="margin-top:16px">Escopo por perfil</h3><p>AAI vê a própria carteira, líder vê o consolidado do time e o detalhe dos assessores dele, admin vê tudo.</p></li>
+      <li class="card"><div class="row-top"><span class="num">05</span><span class="line"></span><span class="badge">⚡</span></div><h3 style="margin-top:16px">Roda como o dono</h3><p>Ninguém precisa de acesso à planilha — o script lê pelos usuários. As fatias ficam no seu Drive, não expostas publicamente.</p></li>
+    </ol>
+    <p style="margin-top:32px;color:var(--muted);font-size:14px;max-width:720px">Configurável em <code>Code.gs</code> na linha <code>var ALLOWED_DOMAINS</code>.</p>
+  </div>
+</section>
+
+<!-- 03 -->
+<section id="acessos" class="section">
+  <div class="wrap">
+    <header class="section-head">
+      <div class="eyebrow"><span class="num">03</span><span class="line"></span><span>Manual de acessos</span></div>
+      <h2>Adicionar, remover ou trocar — na hora.</h2>
+      <p class="lead">Regra de ouro: mudanças de acesso valem imediatamente. O login lê as abas ao vivo — não precisa reconstruir fatias nem republicar para adicionar/remover pessoas. Reconstruir só é necessário quando muda o agrupamento de times ou os dados.</p>
+    </header>
+    <div class="grid grid-2">
+      <div class="card"><div class="row-top"><span class="badge">➕</span><h3 style="margin:0">Adicionar um assessor (AAI)</h3></div>
+        <ol class="steps"><li><span class="n">1.</span> Abra a aba <strong>"Acessos Individuais"</strong>.</li><li><span class="n">2.</span> Ache a linha da pessoa (Nome/Código) e preencha a coluna <strong>E-mail</strong> com o endereço @w1capital.com.br.</li><li><span class="n">3.</span> Pronto — no próximo login ela entra e vê a própria carteira.</li></ol>
+        <p class="note">Se for um assessor novo no Granular, rode antes "Configurar abas de acesso" para ele aparecer, e depois "Reconstruir fatias agora".</p>
+      </div>
+      <div class="card"><div class="row-top"><span class="badge">➕</span><h3 style="margin:0">Adicionar um líder</h3></div>
+        <ol class="steps"><li><span class="n">1.</span> Aba <strong>"Acessos Time"</strong> → ache a linha do líder (Perfil = <code>Lider</code>, Time correto) e preencha o <strong>E-mail</strong>.</li><li><span class="n">2.</span> Já funciona no próximo login. Para ficar 100% otimizado, rode <strong>"Reconstruir fatias agora"</strong>.</li></ol>
+      </div>
+      <div class="card"><div class="row-top"><span class="badge">➕</span><h3 style="margin:0">Adicionar um admin</h3></div>
+        <ol class="steps"><li><span class="n">1.</span> Aba <strong>"Acessos Time"</strong> → crie uma nova linha no fim: <strong>Nome</strong>, <strong>E-mail</strong>, <strong>Perfil = <code>Admin</code></strong>, <strong>Time em branco</strong>.</li><li><span class="n">2.</span> Vale no próximo login. Admin vê tudo.</li></ol>
+      </div>
+      <div class="card"><div class="row-top"><span class="badge">➖</span><h3 style="margin:0">Remover um acesso (qualquer perfil)</h3></div>
+        <ol class="steps"><li><span class="n">1.</span> Apague o <strong>E-mail</strong> da linha da pessoa (ou apague a linha inteira).</li><li><span class="n">2.</span> No próximo carregamento ela é bloqueada ("E-mail não cadastrado"). Sessão em aberto expira em até 6h.</li></ol>
+      </div>
+      <div class="card"><div class="row-top"><span class="badge">↻</span><h3 style="margin:0">Trocar alguém de time</h3></div>
+        <ol class="steps"><li><span class="n">1.</span> Aba <strong>"Acessos Individuais"</strong> → mude o valor da coluna <strong>Time</strong>.</li><li><span class="n">2.</span> Rode <strong>"Reconstruir fatias agora"</strong> para o consolidado dos times refletir a troca.</li></ol>
+      </div>
+      <div class="card"><div class="row-top"><span class="badge">🛡</span><h3 style="margin:0">Liberar outro domínio de e-mail</h3></div>
+        <ol class="steps"><li><span class="n">1.</span> No <code>Code.gs</code>, edite <code>var ALLOWED_DOMAINS = ['w1capital.com.br'];</code> — ex.: <code>['w1capital.com.br','w1.com.br']</code>.</li><li><span class="n">2.</span> <strong>Republique</strong> (Implantar → nova versão) — mudou o código.</li></ol>
+      </div>
+    </div>
+    <div class="warn"><span class="ic">⚠️</span><p><strong>Atenção:</strong> não rode "Configurar abas de acesso" à toa — ele reconstrói a lista de líderes e pode desfazer edições manuais (como os admins que você definiu). Se precisar rodar, confira depois as linhas de Admin.</p></div>
+  </div>
+</section>
+
+<!-- 04 -->
+<section id="atualizacao" class="band">
+  <div class="wrap section">
+    <header class="section-head">
+      <div class="eyebrow"><span class="num">04</span><span class="line"></span><span>Atualização dos dados</span></div>
+      <h2>Basta atualizar o Sheets? Quase.</h2>
+      <p class="lead">Os números do painel vêm das fatias, reconstruídas automaticamente ~11h e ~13h, ou na hora se você rodar "Reconstruir fatias agora".</p>
+    </header>
+    <div class="grid grid-2">
+      <div class="card"><div class="row-top"><span class="badge">📅</span><h3 style="margin:0">Automático (2×/dia)</h3></div><p style="margin-top:12px">O gatilho roda por volta das <strong>11h</strong> e das <strong>13h</strong>. Se você atualizar a planilha, o painel mostra os números novos no próximo horário, sozinho.</p><p style="margin-top:12px;font-size:12px;color:var(--muted)">O agendador do Google roda numa janela de ±15 min — por isso "por volta das 11h e 13h", não cravado no minuto.</p></div>
+      <div class="card"><div class="row-top"><span class="badge">↻</span><h3 style="margin:0">Na hora</h3></div><p style="margin-top:12px">Rode <strong>"W1 Painel → Reconstruir fatias agora"</strong>. Com o cache versionado, o efeito é imediato no próximo login. Você <strong>não</strong> precisa mexer em HTML nem republicar para atualizar dados.</p></div>
+    </div>
+    <h3 style="margin-top:40px;font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--petroleo-650)">O que cada mudança exige</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>O que você fez</th><th>Reconstruir fatias?</th><th>Republicar?</th></tr></thead>
+        <tbody>
+          <tr><td>Atualizou números na planilha</td><td>Sim, para ver na hora (ou espera o rebuild das ~11h/13h)</td><td>Não</td></tr>
+          <tr><td>Adicionou ou removeu pessoa (e-mail)</td><td>Não — vale na hora</td><td>Não</td></tr>
+          <tr><td>Adicionou líder novo ou trocou alguém de time</td><td>Sim (para o consolidado do time)</td><td>Não</td></tr>
+          <tr><td>Mudou visual, coluna ou regra (código)</td><td>Não</td><td>Sim</td></tr>
+          <tr><td>Mudou ALLOWED_DOMAINS (domínios)</td><td>Não</td><td>Sim</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:16px;color:var(--muted);font-size:14px">Para mudar o próprio código (Code.gs ou Index.html): <strong>Implantar → Gerenciar implantações → Editar → "Nova versão" → Implantar</strong> (a URL continua a mesma).</p>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="menu" class="section">
+  <div class="wrap">
+    <header class="section-head">
+      <div class="eyebrow"><span class="num">05</span><span class="line"></span><span>Menu W1 Painel</span></div>
+      <h2>O que cada item faz, na planilha.</h2>
+    </header>
+    <div class="grid grid-2">
+      <div class="card"><div class="row-top"><span class="badge">☰</span><h3 style="margin:0">Configurar abas de acesso</h3></div><p style="margin-top:12px">Cria/atualiza as abas de acesso a partir do Granular. Use ao entrar novos assessores; depois preencha os e-mails.</p><p class="note" style="background:rgba(95,222,212,.12);border-color:rgba(95,222,212,.4);color:var(--petroleo-900)">⚠ Confira os Admins depois — ele reconstrói a lista de líderes.</p></div>
+      <div class="card"><div class="row-top"><span class="badge">☰</span><h3 style="margin:0">Salvar credenciais OAuth (seguro)</h3></div><p style="margin-top:12px">Guarda Client ID e Secret nas Propriedades do Script.</p></div>
+      <div class="card"><div class="row-top"><span class="badge">☰</span><h3 style="margin:0">Reconstruir fatias agora</h3></div><p style="margin-top:12px">Atualiza os dados do painel na hora.</p></div>
+      <div class="card"><div class="row-top"><span class="badge">☰</span><h3 style="margin:0">Instalar atualização diária (11h e 13h)</h3></div><p style="margin-top:12px">Liga os gatilhos automáticos (já instalados). Rode de novo se quiser mudar os horários.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 -->
+<section class="band">
+  <div class="wrap section">
+    <header class="section-head">
+      <div class="eyebrow"><span class="num">06</span><span class="line"></span><span>Estado atual</span></div>
+      <h2>Checklist do que está no ar.</h2>
+    </header>
+    <ul class="check">
+      <li><span class="mk">✓</span> Fatias por assessor e por time geradas (115 assessores, 21 times).</li>
+      <li><span class="mk">✓</span> Reconstrução automática duas vezes ao dia (~11h e ~13h) instalada.</li>
+      <li><span class="mk">✓</span> OAuth publicado "Em produção" (Externo).</li>
+      <li><span class="mk">✓</span> Client Secret rotacionado e guardado nas Propriedades do Script.</li>
+      <li><span class="mk">✓</span> Trava de domínio @w1capital.com.br ativa.</li>
+      <li><span class="mk">✓</span> Login direto (sem tela "Entrando…").</li>
+      <li><span class="mk">✓</span> Cache versionado (rebuild = atualização imediata).</li>
+      <li class="pending"><span class="mk">○</span> (Opcional) Trocar o ícone da aba pela logo da W1.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 07 -->
+<section class="section">
+  <div class="wrap">
+    <header class="section-head">
+      <div class="eyebrow"><span class="num">07</span><span class="line"></span><span>Opcional</span></div>
+      <h2>Trocar o ícone da aba (favicon) pela logo da W1.</h2>
+      <p class="lead">Hoje a aba mostra o ícone padrão do Apps Script. O método de favicon só funciona com uma imagem hospedada num link (não aceita base64). Como você já tem o GitHub Pages, o caminho é:</p>
+    </header>
+    <ol class="plist">
+      <li><div class="n">01</div><div><h3>Suba a imagem no GitHub.</h3><p>No repositório mesaw1capital, clique em Add file → Upload files, arraste o arquivo favicon.png (a marca "W1" extraída do projeto) e clique em Commit changes.</p></div></li>
+      <li><div class="n">02</div><div><h3>Confirme o link.</h3><p>A imagem fica em https://mesaw1capital.github.io/mesaw1capital/favicon.png — abra no navegador pra ver se aparece.</p></div></li>
+      <li><div class="n">03</div><div><h3>Aponte o código para o link.</h3><p>No <code>Code.gs</code>, troque a linha do favicon (começa com <code>var FAVICON = 'data:image/png;base64,...'</code>) por: <code>var FAVICON = 'https://mesaw1capital.github.io/mesaw1capital/favicon.png';</code></p></div></li>
+      <li><div class="n">04</div><div><h3>Republique.</h3><p>Implantar → Gerenciar implantações → Editar → Nova versão → Implantar. Depois abra o painel — o ícone da aba deve virar a logo da W1. Se não mudar na hora, é cache do navegador: force Ctrl+Shift+R.</p></div></li>
+    </ol>
+    <p style="margin-top:24px;color:var(--muted);font-size:14px">Se preferir hospedar em outro lugar, use qualquer URL pública — só troque o endereço no <code>Code.gs</code>.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div class="foot-top">
+      <div>
+        <div class="logo"><div class="logo-mark">W1</div><div><div class="logo-name">W1 Capital</div><div class="logo-sub">Painel V1SÃO</div></div></div>
+        <p>Sempre que mexer no código, use o <code style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff">Code.gs</code> mais recente e publique por "Editar implantação existente → Nova versão" para a URL não mudar.</p>
+      </div>
+      <div class="meta"><div class="lbl">Documento interno</div><div style="margin-top:8px">Painel V1SÃO · W1 Capital</div></div>
+    </div>
+    <div class="foot-bot">© W1 Capital. Uso restrito à equipe.</div>
+  </div>
+</footer>
+
+</body>
+</html>
