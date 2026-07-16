@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>W1 · Guia de Portabilidade de Investimentos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --onix:#0a181c; --petroleo:#022028;
+  --p900:#1f4148; --p800:#3e6a6d; --p650:#6d9899; --p500:#84afaf;
+  --p350:#afcecd; --p200:#d3e0df; --p100:#ebf0f0;
+  --turquesa:#5fded4; --branco:#ffffff;
+  --bg:var(--onix);
+  --fg:#eef4f4;
+  --muted:var(--p350);
+  --card:#0c2028;
+  --card2:#0e2830;
+  --border:rgba(95,222,212,.12);
+  --border2:rgba(95,222,212,.22);
+  --radius:16px;
+  --font:"Public Sans","Arial",system-ui,-apple-system,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--font);
+  -webkit-font-smoothing:antialiased; line-height:1.55; font-weight:400;
+  background-image:
+    radial-gradient(circle at 12% -2%, rgba(95,222,212,.10), transparent 42%),
+    radial-gradient(circle at 88% 8%, rgba(132,175,175,.08), transparent 40%);
+  background-attachment:fixed; min-height:100vh;
+}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+  background:linear-gradient(180deg,rgba(10,24,28,.92),rgba(10,24,28,.6));
+  border-bottom:1px solid var(--border)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .mark{display:block;height:26px;width:auto}
+.brand .divider{width:1px;height:26px;background:var(--border2)}
+.brand .sub{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.2em;font-weight:600;line-height:1.35}
+.topnav{display:flex;gap:6px}
+.topnav a{font-size:12.5px;color:var(--muted);text-decoration:none;padding:7px 12px;border-radius:999px;
+  transition:.18s;white-space:nowrap;font-weight:500}
+.topnav a:hover{color:var(--turquesa);background:rgba(95,222,212,.07)}
+@media(max-width:820px){.topnav{display:none}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 50% -10%, rgba(95,222,212,.20), transparent 70%),
+             linear-gradient(180deg,#0e2a30 0%, var(--onix) 100%);opacity:.9}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(to right,rgba(95,222,212,.05) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(95,222,212,.05) 1px,transparent 1px);
+  background-size:46px 46px;
+  -webkit-mask-image:radial-gradient(ellipse 75% 60% at 50% 15%,#000 30%,transparent 78%);
+          mask-image:radial-gradient(ellipse 75% 60% at 50% 15%,#000 30%,transparent 78%)}
+.hero .wrap{position:relative;padding:72px 24px 60px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.24em;color:var(--turquesa)}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--turquesa);
+  box-shadow:0 0 14px var(--turquesa)}
+h1.title{margin-top:22px;font-size:clamp(34px,6vw,66px);line-height:1.03;
+  letter-spacing:-.02em;font-weight:600;color:var(--fg);max-width:16ch}
+h1.title .grad{background:linear-gradient(120deg,var(--turquesa),var(--p350));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{margin-top:22px;max-width:64ch;color:var(--muted);font-size:clamp(15px,1.6vw,18px);font-weight:400}
+.pills{margin-top:30px;display:flex;flex-wrap:wrap;gap:12px}
+.pill{display:flex;align-items:center;gap:10px;border:1px solid var(--border);
+  background:rgba(12,32,40,.6);backdrop-filter:blur(6px);padding:9px 15px;border-radius:999px}
+.pill .v{font-weight:700;font-size:15px;color:var(--fg);font-variant-numeric:tabular-nums}
+.pill .l{font-size:11px;text-transform:uppercase;letter-spacing:.13em;color:var(--muted)}
+.pill svg{color:var(--turquesa)}
+.searchbox{margin-top:30px;max-width:560px;position:relative}
+.searchbox svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
+#search{width:100%;height:52px;border-radius:13px;border:1px solid var(--border2);
+  background:rgba(12,32,40,.65);backdrop-filter:blur(8px);color:var(--fg);
+  padding:0 18px 0 46px;font-family:var(--font);font-size:15px;outline:none;transition:.18s}
+#search::placeholder{color:rgba(175,206,205,.6)}
+#search:focus{border-color:rgba(95,222,212,.55);box-shadow:0 0 0 4px rgba(95,222,212,.12)}
+
+/* ---------- destino banner ---------- */
+.destino{margin-top:26px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  border:1px solid var(--border2);background:linear-gradient(135deg,rgba(95,222,212,.10),rgba(95,222,212,.02));
+  border-radius:13px;padding:14px 18px;max-width:640px}
+.destino .badge{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.14em;
+  color:var(--onix);background:var(--turquesa);padding:4px 10px;border-radius:999px}
+.destino .txt{font-size:13.5px;color:var(--fg)}
+.destino .txt b{color:var(--turquesa);font-weight:700}
+
+/* ---------- categories ---------- */
+.cats{padding:56px 24px 40px}
+.cat{scroll-margin-top:84px}
+.cat + .cat{margin-top:60px}
+.cat-head{display:flex;align-items:flex-start;gap:16px}
+.cat-ic{position:relative;flex:0 0 auto;width:50px;height:50px;border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--border2);background:rgba(95,222,212,.10);color:var(--turquesa)}
+.cat-meta .idx{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.18em;color:var(--muted)}
+.cat-meta .idx .sl{color:rgba(95,222,212,.5)}
+.cat-meta h2{margin-top:5px;font-size:clamp(21px,3vw,29px);font-weight:600;letter-spacing:-.01em}
+.cat-meta p{margin-top:5px;max-width:62ch;color:var(--muted);font-size:14px}
+.grid{margin-top:26px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:780px){.grid{grid-template-columns:1fr}}
+
+/* ---------- institution card ---------- */
+.inst{position:relative;overflow:hidden;border-radius:var(--radius);padding:22px;
+  background:linear-gradient(150deg,#0d232b 0%, #0a1c22 100%);
+  border:1px solid var(--border);
+  box-shadow:inset 0 1px 0 rgba(95,222,212,.06), 0 18px 40px -32px rgba(0,0,0,.7);
+  transition:transform .2s, box-shadow .2s, border-color .2s}
+.inst:hover{transform:translateY(-2px);border-color:var(--border2);
+  box-shadow:0 24px 60px -26px rgba(95,222,212,.28)}
+.inst-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.inst-name{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.inst-tag{margin-top:6px;display:inline-block;font-size:10px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--turquesa);border:1px solid var(--border2);
+  background:rgba(95,222,212,.06);border-radius:999px;padding:3px 9px}
+.chan-badges{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.cbadge{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--turquesa);
+  border:1px solid var(--border2);background:rgba(95,222,212,.05);border-radius:999px;padding:3px 9px}
+
+/* ---------- accordion ---------- */
+.acc{margin-top:16px;border-top:1px solid var(--border)}
+.acc-item{border-bottom:1px solid var(--border)}
+.acc-trigger{width:100%;background:none;border:none;color:var(--fg);cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:13px 2px;font-family:var(--font);font-size:14px;font-weight:500;text-align:left;transition:.15s}
+.acc-trigger:hover{color:var(--turquesa)}
+.acc-trigger .lft{display:flex;align-items:center;gap:9px}
+.acc-trigger .lft svg{color:var(--turquesa);flex:0 0 auto}
+.acc-trigger .chev{transition:transform .22s;color:var(--muted);flex:0 0 auto}
+.acc-item.open .acc-trigger .chev{transform:rotate(180deg)}
+.acc-panel{overflow:hidden;max-height:0;transition:max-height .28s ease}
+.acc-inner{padding:2px 2px 18px}
+ol.steps{list-style:none;display:flex;flex-direction:column;gap:10px}
+ol.steps li{display:flex;gap:11px;font-size:13.5px;color:var(--fg);opacity:.92;line-height:1.5}
+ol.steps li .num{flex:0 0 auto;width:21px;height:21px;border-radius:7px;margin-top:1px;
+  display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;
+  color:var(--turquesa);border:1px solid var(--border2);background:rgba(95,222,212,.05);
+  font-variant-numeric:tabular-nums}
+.note{margin-top:12px;display:flex;gap:9px;align-items:flex-start;font-size:12.5px;color:var(--muted);
+  border:1px solid var(--border2);background:rgba(95,222,212,.05);border-radius:11px;padding:11px 13px;line-height:1.5}
+.note svg{flex:0 0 auto;margin-top:2px;color:var(--turquesa)}
+
+/* obs / links footer of card */
+.inst-foot{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+.obs{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.5}
+.obs svg{flex:0 0 auto;margin-top:2px}
+.obs.b3 svg{color:var(--p500)}
+.obs.warn{color:#f3c6a6}
+.obs.warn svg{color:#e5a05a}
+.official{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;font-size:12.5px;
+  font-weight:600;color:var(--turquesa);text-decoration:none;transition:.15s}
+.official:hover{gap:10px}
+.official svg{transition:.15s}
+
+/* ---------- general instructions ---------- */
+.general{padding:20px 24px 30px}
+.gcard{border-radius:20px;padding:32px;position:relative;overflow:hidden;
+  background:linear-gradient(150deg,#0e2830 0%,#0a1c22 100%);border:1px solid var(--border2);
+  box-shadow:inset 0 1px 0 rgba(95,222,212,.07)}
+.gcard::before{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(95,222,212,.14),transparent 70%);pointer-events:none}
+.gcard .cat-head{position:relative}
+.ggrid{margin-top:26px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:780px){.ggrid{grid-template-columns:1fr}}
+.gitem{border:1px solid var(--border);background:rgba(10,24,28,.5);border-radius:13px;padding:18px 20px}
+.gitem h4{font-size:14.5px;font-weight:600;color:var(--turquesa);display:flex;gap:9px;align-items:center}
+.gitem h4 .gn{flex:0 0 auto;width:22px;height:22px;border-radius:7px;font-size:11px;
+  display:flex;align-items:center;justify-content:center;color:var(--onix);background:var(--turquesa);font-weight:800}
+.gitem p{margin-top:9px;font-size:13px;color:var(--fg);opacity:.85;line-height:1.55}
+
+/* empty */
+.empty{border:1px solid var(--border);background:rgba(12,32,40,.5);border-radius:18px;
+  padding:48px;text-align:center;color:var(--muted)}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--border);margin-top:40px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;
+  padding:26px 24px;font-size:12px;color:var(--muted)}
+footer .fl{display:flex;align-items:center;gap:12px}
+footer .fl .b{display:flex;align-items:center;gap:7px;color:var(--fg);font-weight:700;
+  text-transform:uppercase;letter-spacing:.2em}
+footer .fl .b .dt{width:8px;height:8px;border-radius:50%;background:var(--turquesa)}
+.disc{border-top:1px solid var(--border);color:rgba(175,206,205,.6);font-size:11px;line-height:1.5}
+.disc .wrap{padding:16px 24px}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand">
+    <img class="mark" src="data:image/png;base64,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" alt="W1 Capital" height="26">
+    <span class="divider" aria-hidden="true"></span>
+    <div class="sub">Guia Técnico<br>Portabilidade</div>
+  </div>
+  <nav class="topnav" id="topnav"></nav>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <span class="eyebrow"><span class="dot"></span>W1 · Portabilidade de Investimentos</span>
+  <h1 class="title">Traga a custódia<br>de <span class="grad">cada instituição</span>.</h1>
+  <p class="lede">Passo a passo consolidado para solicitar a portabilidade de investimentos de cada corretora, banco ou cooperativa para a W1 Capital — priorizando o canal mais eficiente por instituição, via site, aplicativo ou STVM.</p>
+  <div class="pills">
+    <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8z"/></svg><span class="v">4</span><span class="l">Categorias</span></span>
+    <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8z"/></svg><span class="v">23</span><span class="l">Instituições</span></span>
+    <span class="pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.2L19 10l-5.1 1.8L12 17l-1.9-5.2L5 10l5.1-1.8z"/></svg><span class="v">Site · App · STVM</span><span class="l">Canais mapeados</span></span>
+  </div>
+  <div class="destino">
+    <span class="badge">Destino</span>
+    <span class="txt">A instituição de destino da portabilidade é sempre a <b>XP CCTVM S.A</b> · código <b>003-5</b>.</span>
+  </div>
+  <div class="searchbox">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="search" type="text" placeholder="Buscar instituição (ex.: Itaú, Nubank, BTG, Sicoob...)" autocomplete="off">
+  </div>
+</div></header>
+
+<main class="cats"><div class="wrap" id="cats"></div></main>
+
+<section class="general"><div class="wrap" id="general"></div></section>
+
+<footer><div class="wrap">
+  <div class="fl">
+    <img src="data:image/png;base64,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" alt="W1" height="18" style="display:block;opacity:.9">
+    <span>Guia técnico interno · Portabilidade de investimentos</span>
+  </div>
+  <span>© 2026 W1 Capital. Todos os direitos reservados.</span>
+</div></footer>
+<div class="disc"><div class="wrap">Material de uso interno e de apoio. Os caminhos nos apps/sites das instituições podem mudar sem aviso — em caso de divergência, confira sempre o link oficial de cada instituição.</div></div>
+
+<script>
+const PAYLOAD = {"data": [{"id": "corretoras", "title": "Corretoras & Casas de Investimento", "subtitle": "Corretoras e plataformas de investimento — portabilidade em geral pelo portal ou via STVM.", "icon": "chart", "institutions": [{"name": "Ágora Investimentos", "channels": [{"type": "site", "label": "Via site", "steps": ["Acesse agorainvestimentos.com.br e entre na sua conta.", "Vá em Minha Conta &gt; Portabilidade.", "Selecione os ativos que deseja transferir.", "Informe a corretora de destino: XP CCTVM S.A · código 003-5.", "Siga o passo a passo para concluir a solicitação."], "note": "Ao pedir pelo Portal, o cliente acompanha o status pelo site e por e-mail."}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://www.agorainvestimentos.com.br/home/investimentos/outros/traga-seus-investimentos---portabilidade"}, {"name": "AndBank", "channels": [{"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite a portabilidade por e-mail: transferencias@andbank.com.br.", "Anexe documento de identificação + STVM.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Atenção: não é possível solicitar portabilidade de nenhum ativo no AndBank via B3.", "obsWarn": true, "link": "https://www.andbank.com/brasil/transferencia-de-custodia/"}, {"name": "Ativa Investimentos", "channels": [{"type": "site", "label": "Via site", "steps": ["Acesse o site e faça login.", "Clique em “Olá, [Seu nome]”.", "Na coluna à direita, clique em “Portabilidade” e siga as etapas.", "Selecione os ativos e as quantidades que deseja transferir.", "Informe a instituição de destino (XP CCTVM S.A · código 003-5).", "Conclua a solicitação."]}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail: atendimento@ativainvestimentos.com.br.", "Anexe documento de identificação + STVM.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://materiais.ativainvestimentos.com.br/central-conhecimento-ativa/portabilidade-de-investimentos"}, {"name": "BTG Pactual", "channels": [{"type": "site", "label": "Via site", "steps": ["Menu lateral → Conta e extrato → Transferência de custódia.", "Marque “transferência de saída”.", "Preencha os dados da conta destino: XP Investimentos CCTVM (003-5) e dígito bolsa.", "Assinale “pessoa não vinculada à instituição de destino”.", "Selecione os ativos e quantidades → Continuar.", "Confira os detalhes → Continuar → valide o token."]}], "link": "https://investimentos.btgpactual.com/transferencia"}, {"name": "CM Capital", "tag": "Capital Investimentos", "channels": [{"type": "site", "label": "Via site", "steps": ["Solicite pelo portal em Transferência &gt; Portabilidade &gt; Saída."]}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail: atendimento@cmcapital.com.br.", "Anexe documento de identificação + STVM.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://ajuda.cmcapital.com.br/hc/pt-br/sections/21012295089303-Transfer%C3%AAncia-de-Cust%C3%B3dia-STVM"}, {"name": "Clear", "tag": "Grupo XP", "channels": [{"type": "site", "label": "Via site", "steps": ["Acesse clear.com.br e faça login.", "No menu superior: Produtos &gt; Portabilidade de investimentos &gt; Transferência de saída.", "Responda o formulário que aparecerá na tela.", "Acompanhe em Produtos &gt; Portabilidade de investimentos &gt; Minhas solicitações."], "note": "Clear integra o Grupo XP: acione a Sara Makuta (Linktree → Solicitações Operações) para abrir a solicitação de transferência de entrada, senão pode haver interferência na portabilidade. Se for portabilidade de tesouro, confira se o código XP do cliente está habilitado à conta Tesouro Direto."}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://atendimento.clear.com.br/artigo/4850-como-realizar-a-portabilidade-dos-meus-investimentos-para-outra-instituicao"}, {"name": "Genial", "channels": [{"type": "site", "label": "Via site", "steps": ["Acesse sua conta Genial pelo site.", "Clique nas iniciais do seu nome (canto superior direito).", "Transferência de Investimentos &gt; Enviar investimentos para outra instituição.", "Escolha os tipos de investimento &gt; Começar &gt; Sistema tradicional (STVM).", "Selecione os ativos que vai enviar &gt; Continuar.", "Escolha a instituição de destino &gt; Continuar.", "Preencha os dados de destino &gt; Continuar &gt; Assinatura eletrônica."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://suporte.genialinvestimentos.com.br/hc/pt-br/sections/360008764752-Transfer%C3%AAncia-de-Investimentos"}, {"name": "Rico", "channels": [{"type": "site", "label": "Via site", "steps": ["Acesse o portal Rico e faça login.", "No menu superior: Produtos &gt; Portabilidade de Investimentos &gt; Transferência de Saída.", "Responda ao formulário que aparecerá na tela.", "Após a solicitação, a Rico contatará a instituição de destino.", "Acompanhe em Produtos &gt; Portabilidade de Investimentos &gt; Minhas Solicitações."]}], "link": "https://atendimento.rico.com.vc/artigo/2099-como-realizar-a-portabilidade-dos-meus-investimentos-para-outra-instituicao"}]}, {"id": "bancos-tradicionais", "title": "Grandes Bancos & Instituições Tradicionais", "subtitle": "Bancos consolidados — portabilidade pelo app / Internet Banking e, quando aplicável, via STVM.", "icon": "landmark", "institutions": [{"name": "Banco do Brasil", "channels": [{"type": "app", "label": "Via app Investimentos BB", "steps": ["No menu principal, clique em Portabilidade Digital.", "Selecione “Levar para Outra Instituição”.", "Preencha as informações da instituição de destino.", "Informe a conta/código investidor e indique os produtos a transferir."]}, {"type": "stvm", "label": "Tesouro Direto (via STVM)", "steps": ["Para ativos do Tesouro Direto: preencha, assine e envie a STVM à agência BB do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://www.bb.com.br/site/investimentos/transferencia-custodia/"}, {"name": "Bradesco", "channels": [{"type": "app", "label": "Via app Bradesco", "steps": ["Clique em Investimentos &gt; Portabilidade de investimentos.", "Selecione a instituição de destino.", "Selecione os ativos que deseja transferir e as quantidades.", "Conclua a solicitação."]}, {"type": "stvm", "label": "Fundos (via STVM)", "steps": ["Fundos são portados via STVM.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://banco.bradesco/html/classic/portal-investimentos/guia-investidor.shtm"}, {"name": "Itaú Unibanco", "tag": "Itaú", "channels": [{"type": "app", "label": "Via app", "steps": ["Clique em “Investimentos”.", "No canto superior direito, clique no ícone do boneco.", "“Levar meus investimentos”.", "Informe a instituição destino (XP CCTVM S.A).", "Selecione os ativos e quantidades.", "Conclua a operação."], "note": "A portabilidade ocorre em até 2 dias úteis. Para fundos de investimento, de 5 a 7 dias úteis."}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail: itaucortransferencia@itau-unibanco.com.br.", "Anexe documento de identificação + STVM.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados."}, {"name": "Santander", "channels": [{"type": "site", "label": "Via site", "steps": ["Acesse site.santandercorretora.com.br e faça login.", "Na área inicial, clique no menu (☰) e depois em Portabilidade.", "Clique em Solicitar Portabilidade.", "Selecione os ativos que deseja enviar para outra corretora.", "Siga os passos seguintes até concluir o pedido."], "note": "Após enviar a solicitação, não é possível editar a quantidade de ativos selecionados."}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail: portabilidade@santandercorretora.com.br.", "Anexe documento de identificação + STVM + notas de corretagem.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://ajuda.santandercorretora.com.br/hc/pt-br/articles/4402400424731-Como-transferir-a-cust%C3%B3dia-dos-meus-investimentos-portabilidade"}, {"name": "Safra", "channels": [{"type": "site", "label": "Via site (o próprio cliente solicita)", "steps": ["Acesse o Internet Banking do Safra.", "No submenu, selecione “Portabilidade de Investimentos” &gt; “Enviar seus investimentos para outra instituição”.", "Preencha a seleção da instituição de origem e destino e selecione os produtos.", "Aceite os termos e condições e confirme.", "Acompanhe o status em “Consulta de status”."]}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail: stvm-corretora@safra.com.br.", "Anexe documento de identificação + STVM + notas de corretagem.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://www.safra.com.br/investimentos/transferencia-de-custodia.htm"}, {"name": "Caixa Econômica", "channels": [{"type": "site", "label": "Via site (Internet Banking)", "steps": ["Acesse o Internet Banking CAIXA.", "Vá em Investimentos &gt; Ações Online/Home Broker &gt; Acesse Home Broker &gt; Transferência de Custódia.", "Escolha “Para outro Agente de Custódia” e preencha os dados.", "Revise, digite sua assinatura eletrônica e clique em “Solicitar”."]}, {"type": "stvm", "label": "Via STVM", "steps": ["O cliente assina via gov.br e envia ao gerente da sua agência.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Atenção: não é possível solicitar via B3 ativos localizados na Caixa.", "obsWarn": true, "link": "https://www.caixa.gov.br/voce/poupanca-e-investimentos/acoes-online/custodia/transferencia-custodia/Paginas/default.aspx"}, {"name": "Banco BMG", "channels": [{"type": "app", "label": "Via app / Internet Banking", "steps": ["Acesse o app BMG ou o Internet Banking.", "Vá em Minha Conta &gt; Transferências.", "Escolha o tipo de transferência desejada.", "Informe os dados do favorecido e valor.", "Confirme a operação."]}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail: atendimento@bmginvestdigital.com.br.", "Anexe documento de identificação + STVM.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://www.bancobmg.com.br/atendimento/perguntas-frequentes/investimentos.htm"}, {"name": "Daycoval", "channels": [{"type": "site", "label": "Via site (Dayconnect)", "steps": ["Acesse a área logada do Internet Banking Dayconnect pela web.", "No menu: Investimentos &gt; Portabilidade de Investimentos.", "Preencha o formulário: ativos a transferir, dados da instituição de origem e de destino.", "Envie a solicitação e acompanhe o andamento pela plataforma."]}], "link": "https://www.daycoval.com.br/investimentos/transferencia-custodia/"}]}, {"id": "digitais", "title": "Bancos Digitais & Fintechs", "subtitle": "Plataformas digitais — portabilidade majoritariamente pelo aplicativo.", "icon": "smartphone", "institutions": [{"name": "Nubank", "channels": [{"type": "app", "label": "Via app", "steps": ["Clique no ícone do seu perfil (foto).", "Clique no ícone de configurações (canto superior direito).", "Configurar → Transferir investimentos → Portabilidade para outro lugar → “Levar meus investimentos para outra corretora em que sou titular”.", "Escolha se quer responder o motivo da transferência.", "Escolha a instituição de destino (XP Investimentos CCTVM S/A).", "Insira o número da sua conta XP de destino e o dígito.", "Selecione os ativos que deseja transferir → Continuar.", "Confira os dados → Continuar."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados."}, {"name": "Inter", "channels": [{"type": "app", "label": "Via app", "steps": ["Clique na sua foto de perfil.", "Deslize para baixo e clique em “Central de ajuda”.", "Selecione “conversar com nosso time no chat” &gt; “envie uma mensagem”.", "Digite “quero transferir minha custódia” e aguarde a resposta.", "Escolha a opção 2 (Do Inter para outra instituição).", "Selecione o tipo de investimento a transferir e continue no chat.", "Você receberá o formulário por e-mail; clique em “analisar documento” e finalize."]}, {"type": "site", "label": "Via site", "steps": ["Acesse o Internet Banking.", "Vá em “Investir” &gt; “Portabilidade de Investimentos”.", "Selecione “Levar investimentos para outra instituição”.", "Preencha as informações solicitadas.", "Acompanhe em “Meus pedidos”."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://inter.co/pra-voce/investimentos/portabilidade/"}, {"name": "C6", "channels": [{"type": "app", "label": "Via app", "steps": ["Acesse o C6 Invest.", "Clique na aba “Mais”.", "Vá em “Portabilidade” &gt; Portabilidade de saída.", "Selecione a instituição destino (XP CCTVM S.A · 003-5).", "Selecione os ativos e as quantidades.", "Conclua a solicitação."]}, {"type": "site", "label": "Via site", "steps": ["Acesse c6bank.com.br/portabilidade-de-investimentos.", "Faça login e clique em “fazer a portabilidade”.", "Selecione portabilidade de saída.", "Selecione a instituição destino (XP CCTVM S.A · 003-5).", "Selecione os ativos e as quantidades.", "Conclua a solicitação."]}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail: backoffice.corretora@c6bank.com.br e transferencias.custodia@c6bank.com.br.", "Anexe documento de identificação + STVM.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados."}, {"name": "PagBank", "channels": [{"type": "app", "label": "Via app", "steps": ["Acesse o app PagBank e clique na aba Investimentos.", "Clique em “Enviar Investimento” &gt; “Continuar com portabilidade”.", "Selecione até 3 motivos da portabilidade e clique em “Continuar”.", "Selecione os investimentos e as quantidades a transferir.", "Clique em “Continuar com portabilidade”."]}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail: stvm@pagbank.com e stvm@pagseguro.com.", "Anexe documento de identificação + STVM.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados."}, {"name": "PicPay", "channels": [{"type": "app", "label": "Via app", "steps": ["Na tela inicial do app PicPay, clique em “Investimentos”.", "Em “Serviços”, toque em “Mais opções” &gt; “Transferência de custódia”.", "Escolha “Transferência de saída / levar para outra corretora”.", "Selecione a instituição de destino (XP CCTVM).", "Digite o número da conta de investimento de destino.", "Selecione o tipo de investimento a portabilizar.", "Selecione os ativos e a quantidade (ou “Transferir todos os investimentos”).", "Confirme os dados e valide com o código enviado por SMS ou e-mail."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados."}]}, {"id": "cooperativas", "title": "Cooperativas de Crédito", "subtitle": "Cooperativas financeiras — portabilidade pelo super app e, quando aplicável, via STVM.", "icon": "building", "institutions": [{"name": "Sicoob", "channels": [{"type": "app", "label": "Via app", "steps": ["SuperApp Sicoob → Plataforma de Investimentos → Home Broker → Portabilidade (ou → Investir → Renda Variável → Portabilidade).", "Selecione “Enviar para outra instituição”.", "Selecione os ativos que deseja transferir (e se o provento deve ser portado).", "Informe o CNPJ da instituição de destino.", "Informe o código do investidor na instituição de destino.", "Defina se a portabilidade é parcial ou total.", "Finalize a solicitação."]}, {"type": "stvm", "label": "Via STVM (formulário)", "steps": ["Solicite por e-mail ao seu gerente de relacionamento.", "Anexe documento de identificação + STVM + notas de corretagem.", "Para gerar a STVM, acione a Sara Makuta via ticket w1nner (assunto: “W1 Capital – Transferência de custódia – STVM”). Anexe as notas de corretagem dos ativos a portabilizar e informe o código XP do cliente."]}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados."}, {"name": "Sicredi", "channels": [{"type": "app", "label": "Via app", "steps": ["No Sicredi App, acesse Investimentos &gt; Transferir investimentos.", "Selecione “Levar para outro lugar”.", "Escolha a instituição de destino.", "Informe o código de investidor / número da conta de destino.", "Selecione os ativos e as quantidades.", "Finalize a solicitação."], "note": "Acompanhe em Investimentos &gt; Transferir investimentos &gt; Acessar solicitações &gt; Em andamento."}], "obs": "Pela B3 é possível portabilizar: Ações, ETFs, Fundos listados (inclusive FIIs), BDRs, Ouro, Direitos, Recibos, Debêntures listadas e CRIs/CRAs listados.", "link": "https://www.sicredi.com.br/site/investimentos/transferencia-custodia/"}]}], "general": [{"title": "Contas no Grupo XP", "body": "Antes de orientar a saída da instituição de origem, verifique se o cliente possui mais de uma conta no Grupo XP (XP, Rico, Clear, Modal ou Monte Bravo). Se sim, acione a Sara Makuta (Linktree → Solicitações Operações) para solicitar a entrada na conta de destino da XP — isso garante que os ativos vão para a conta correta e evita que sejam direcionados a outra conta do grupo."}, {"title": "Casos que podem interferir na portabilidade", "body": "A portabilidade pode ser bloqueada se o ativo estiver: em aluguel (custódia remunerada); em garantia; com bloqueio; ou se for de benefício exclusivo da instituição."}, {"title": "Portabilidade entre contas XP", "body": "A XP não autoriza portabilidade de investimento entre contas XP. Para solicitar exceção via BDO, acione a Sara Makuta (Linktree → Solicitações Operações)."}, {"title": "Portabilidade de Tesouro Direto", "body": "Confira se a conta XP está habilitada para conta de Tesouro Direto. Caso não esteja, solicite a habilitação acionando a Sara Makuta (Linktree → Solicitações Operações)."}, {"title": "Aceite da transferência via B3", "body": "Após solicitar portabilidades de investimento via B3, é necessário aceitar a transferência de custódia no próprio site/app da instituição cedente (passo a passo oficial da B3)."}], "total": 23, "dest": "XP CCTVM S.A · código 003-5"};
+
+const ICONS = {
+  landmark:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>',
+  smartphone:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12" y2="18"/></svg>',
+  chart:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
+  building:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><path d="M8 6h.01M16 6h.01M8 10h.01M16 10h.01M8 14h.01M16 14h.01"/></svg>',
+  monitor:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',
+  phone:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><line x1="12" y1="18" x2="12" y2="18"/></svg>',
+  doc:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>',
+  chev:'<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>',
+  arrow:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+  info:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="8"/></svg>',
+  warn:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>',
+  ext:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+};
+const CHAN = {
+  site:{ic:ICONS.monitor,label:'Web'},
+  app:{ic:ICONS.phone,label:'App'},
+  stvm:{ic:ICONS.doc,label:'STVM'},
+};
+
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;};
+const uid=(()=>{let n=0;return ()=>'a'+(n++);})();
+
+function channelBadges(ch){
+  return ch.map(c=>`<span class="cbadge">${CHAN[c.type].ic}${CHAN[c.type].label}</span>`).join('');
+}
+
+function buildInst(inst){
+  const card=el('div','inst');
+  const badges=[...new Map(inst.channels.map(c=>[c.type,c])).values()];
+  let top=`<div class="inst-top"><div><div class="inst-name">${inst.name}</div>`+
+    (inst.tag?`<span class="inst-tag">${inst.tag}</span>`:'')+`</div>`+
+    `<div class="chan-badges">${channelBadges(badges)}</div></div>`;
+  let acc='<div class="acc">';
+  inst.channels.forEach((c,i)=>{
+    const steps=c.steps.map((s,j)=>`<li><span class="num">${j+1}</span><span>${s}</span></li>`).join('');
+    const note=c.note?`<div class="note">${ICONS.arrow}<span>${c.note}</span></div>`:'';
+    acc+=`<div class="acc-item${i===0?' open':''}">`+
+      `<button class="acc-trigger" type="button"><span class="lft">${CHAN[c.type].ic}${c.label}</span>${ICONS.chev}</button>`+
+      `<div class="acc-panel"><div class="acc-inner"><ol class="steps">${steps}</ol>${note}</div></div>`+
+    `</div>`;
+  });
+  acc+='</div>';
+  let foot='<div class="inst-foot">';
+  if(inst.obs){
+    const warn=inst.obsWarn;
+    foot+=`<div class="obs ${warn?'warn':'b3'}">${warn?ICONS.warn:ICONS.info}<span>${inst.obs}</span></div>`;
+  }
+  if(inst.link){
+    foot+=`<a class="official" href="${inst.link}" target="_blank" rel="noopener">Site oficial da instituição ${ICONS.ext}</a>`;
+  }
+  foot+='</div>';
+  card.innerHTML=top+acc+foot;
+  return card;
+}
+
+function buildCategory(cat,idx,ncat){
+  const sec=el('div','cat');sec.id=cat.id;
+  const head=`<div class="cat-head">
+    <div class="cat-ic">${ICONS[cat.icon]}</div>
+    <div class="cat-meta">
+      <div class="idx"><span>${String(idx+1).padStart(2,'0')}</span><span class="sl">/</span><span>${String(ncat).padStart(2,'0')}</span></div>
+      <h2>${cat.title}</h2><p>${cat.subtitle}</p>
+    </div></div>`;
+  sec.innerHTML=head;
+  const grid=el('div','grid');
+  cat.institutions.forEach(i=>grid.appendChild(buildInst(i)));
+  sec.appendChild(grid);
+  return sec;
+}
+
+function buildGeneral(g){
+  const card=el('div','gcard');
+  card.innerHTML=`<div class="cat-head">
+    <div class="cat-ic">${ICONS.info}</div>
+    <div class="cat-meta"><div class="idx"><span>GERAL</span></div>
+    <h2>Instruções gerais</h2><p>Regras e pontos de atenção que valem para qualquer portabilidade — leia antes de orientar o cliente.</p></div></div>`;
+  const grid=el('div','ggrid');
+  g.forEach((it,i)=>{
+    grid.appendChild(el('div','gitem',`<h4><span class="gn">${i+1}</span>${it.title}</h4><p>${it.body}</p>`));
+  });
+  card.appendChild(grid);
+  return card;
+}
+
+const catsRoot=document.getElementById('cats');
+const genRoot=document.getElementById('general');
+const navRoot=document.getElementById('topnav');
+
+function render(list){
+  catsRoot.innerHTML='';
+  if(!list.length){
+    catsRoot.appendChild(el('div','empty','Nenhuma instituição encontrada para a busca.'));
+    return;
+  }
+  list.forEach((c,i)=>catsRoot.appendChild(buildCategory(c,i,PAYLOAD.data.length)));
+  wireAccordions();
+}
+
+function wireAccordions(){
+  document.querySelectorAll('.acc-item').forEach(item=>{
+    const panel=item.querySelector('.acc-panel');
+    if(item.classList.contains('open'))panel.style.maxHeight=panel.scrollHeight+'px';
+    const btn=item.querySelector('.acc-trigger');
+    btn.onclick=()=>{
+      const open=item.classList.toggle('open');
+      panel.style.maxHeight=open?panel.scrollHeight+'px':0;
+    };
+  });
+}
+
+// nav
+PAYLOAD.data.forEach(c=>{
+  const a=el('a');a.href='#'+c.id;a.textContent=c.title.replace(/ &.*/,'').replace(' & ',' & ');
+  a.textContent=c.title;navRoot.appendChild(a);
+});
+
+render(PAYLOAD.data);
+genRoot.appendChild(buildGeneral(PAYLOAD.general));
+
+// search
+const search=document.getElementById('search');
+search.addEventListener('input',()=>{
+  const q=search.value.trim().toLowerCase();
+  if(!q){render(PAYLOAD.data);return;}
+  const filtered=PAYLOAD.data.map(c=>({
+    ...c,
+    institutions:c.institutions.filter(i=>(i.name+' '+(i.tag||'')).toLowerCase().includes(q))
+  })).filter(c=>c.institutions.length);
+  render(filtered);
+});
+</script>
+</body>
+</html>
