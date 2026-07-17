@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PlayBook | W1 Capital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --petroleo:#022028; --onix:#0a181c; --petroleo-900:#1f4148; --petroleo-800:#3e6a6d;
+    --petroleo-650:#6d9899; --petroleo-500:#84afaf; --petroleo-350:#afcecd;
+    --petroleo-200:#d3e0df; --petroleo-100:#ebf0f0; --turquesa:#5fded4; --branco:#fff; --texto:#0a181c;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Public Sans',system-ui,Arial,sans-serif;color:var(--texto);background:var(--branco);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  header.topo{background:var(--petroleo);color:#fff;border-bottom:3px solid var(--turquesa)}
+  .topo-inner{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:1120px;margin:0 auto;gap:24px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand-logo{height:34px}
+  .brand .sub{font-weight:300;font-size:20px;letter-spacing:.5px;padding-left:12px;border-left:1px solid rgba(255,255,255,.28)}
+  .topo .tagline{font-size:13px;color:var(--petroleo-350)}
+
+  .hero{background:var(--petroleo);color:#fff;background-image:radial-gradient(circle at 100% 0%,rgba(95,222,212,.12),transparent 46%);text-align:center}
+  .hero .container{padding-top:64px;padding-bottom:56px}
+  .hero .eyebrow{display:inline-block;font-size:12px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--turquesa);margin-bottom:16px}
+  .hero h1{font-weight:300;font-size:clamp(38px,7vw,64px);margin:0 0 14px;letter-spacing:-1px}
+  .hero h1 strong{font-weight:700}
+  .hero p{color:var(--petroleo-200);font-size:18px;margin:0 auto;max-width:620px}
+
+  .produtos{padding:56px 0 30px}
+  .sec-rot{text-align:center;margin-bottom:8px}
+  .sec-rot .plus{color:var(--turquesa);font-weight:700;font-size:20px}
+  .sec-rot h2{font-weight:300;font-size:clamp(24px,4vw,34px);color:var(--petroleo);margin:6px 0 0}
+  .grid-prod{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:40px}
+  .prod-card{display:flex;flex-direction:column;align-items:flex-start;gap:14px;border:1px solid var(--petroleo-200);
+    border-radius:10px;padding:28px 24px;background:#fff;transition:transform .15s,box-shadow .15s,border-color .15s;min-height:300px}
+  .prod-card .pc-ic{width:60px;height:60px;border-radius:14px;background:var(--petroleo-100);display:flex;align-items:center;justify-content:center}
+  .prod-card .pc-ic svg{width:30px;height:30px;stroke:var(--petroleo-800);fill:none;stroke-width:1.7}
+  .prod-card h3{margin:0;font-size:21px;color:var(--petroleo);font-weight:600}
+  .prod-card p{margin:0;font-size:14px;color:var(--petroleo-800);flex:1}
+  .pc-btn{display:inline-flex;align-items:center;gap:7px;font-weight:600;font-size:14px;padding:10px 20px;border-radius:6px;letter-spacing:.3px}
+  /* card ativo (clicável) */
+  a.prod-card.ativo{border-top:3px solid var(--turquesa)}
+  a.prod-card.ativo:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(2,32,40,.14);border-color:var(--petroleo-350)}
+  a.prod-card.ativo .pc-ic{background:var(--petroleo);}
+  a.prod-card.ativo .pc-ic svg{stroke:var(--turquesa)}
+  a.prod-card.ativo .pc-btn{background:var(--turquesa);color:var(--petroleo)}
+  .pc-tag{position:absolute}
+  a.prod-card.ativo{position:relative}
+  a.prod-card.ativo .disp{position:absolute;top:16px;right:16px;font-size:10px;font-weight:700;letter-spacing:1px;
+    text-transform:uppercase;color:#1c7a54;background:#e0f5ef;border:1px solid #9fddc6;padding:3px 9px;border-radius:20px}
+  /* card em breve */
+  .prod-card.soon{opacity:.85}
+  .prod-card.soon .pc-btn{background:transparent;border:1.5px solid var(--petroleo-300,#c3d5d4);color:var(--petroleo-800);cursor:default}
+  .prod-card.soon .pc-btn.soon{border-color:var(--petroleo-200);color:var(--petroleo-650)}
+
+  footer.rodape{background:var(--petroleo);color:var(--petroleo-200);margin-top:40px;padding:36px 0 24px}
+  .foot-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+  footer .brand-logo{height:28px}
+  .foot-bottom{border-top:1px solid rgba(255,255,255,.12);margin-top:24px;padding-top:16px;font-size:12px;color:var(--petroleo-500)}
+
+  @media (max-width:900px){ .grid-prod{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:520px){ .grid-prod{grid-template-columns:1fr} .brand .sub{font-size:16px} .topo .tagline{display:none} }
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-inner">
+    <a class="brand" href="#" aria-label="W1 Capital"><img class="brand-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAAAnCAMAAADpcl4JAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAALxUExURQAAAP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////65B4ZoAAAD7dFJOUwAiz+Lh3a1KAYAnGo/j/v/wsDIRvPR9kS0QxTEGkkd086sDcf2W7CPD0M7ur78eKykstaOlsrtuChy2s220V58P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" alt="W1 Capital"><span class="sub">PlayBook</span></a>
+    <span class="tagline">Central de produtos &middot; Rede de relacionamento</span>
+  </div>
+</header>
+
+<div class="hero"><div class="container">
+  <span class="eyebrow">W1 Capital</span>
+  <h1>PlayBook <strong>W1 Capital</strong></h1>
+  <p>O ponto de partida para os materiais e curadorias de cada produto. Escolha uma frente para começar.</p>
+</div></div>
+
+<main class="container">
+  <section class="produtos">
+    <div class="sec-rot"><span class="plus">(+)</span><h2>Nossos produtos</h2></div>
+
+    <div class="grid-prod">
+
+      <a class="prod-card ativo" href="resumo-renda-fixa-w1.html">
+        <span class="disp">Disponível</span>
+        <div class="pc-ic"><svg viewBox="0 0 24 24"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 16h8"/></svg></div>
+        <h3>Renda Fixa</h3>
+        <p>Resumo, Book RF (curadoria diária), Radar de Crédito e materiais de abordagem.</p>
+        <span class="pc-btn">Acessar &rsaquo;</span>
+      </a>
+
+      <div class="prod-card soon">
+        <div class="pc-ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9.5 12l1.8 1.8L15 10"/></svg></div>
+        <h3>Previdência</h3>
+        <p>Portabilidade, planejamento sucessório e fundos de previdência.</p>
+        <span class="pc-btn soon">Em breve</span>
+      </div>
+
+      <div class="prod-card soon">
+        <div class="pc-ic"><svg viewBox="0 0 24 24"><path d="M4 16l5-5 3 3 6-7"/><path d="M18 4h3v3"/><path d="M4 20h16"/></svg></div>
+        <h3>Renda Variável Brasil</h3>
+        <p>Ações, análises fundamentalistas e carteiras recomendadas.</p>
+        <span class="pc-btn soon">Em breve</span>
+      </div>
+
+      <div class="prod-card soon">
+        <div class="pc-ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.8 5.6 3.8 9S14.5 18.5 12 21c-2.5-2.5-3.8-5.6-3.8-9S9.5 5.5 12 3z"/></svg></div>
+        <h3>Internacional</h3>
+        <p>Investimentos globais e diversificação em moeda forte.</p>
+        <span class="pc-btn soon">Em breve</span>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="rodape"><div class="container">
+  <div class="foot-inner">
+    <a class="brand" href="#" aria-label="W1 Capital"><img class="brand-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAAAnCAMAAADpcl4JAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAALxUExURQAAAP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////65B4ZoAAAD7dFJOUwAiz+Lh3a1KAYAnGo/j/v/wsDIRvPR9kS0QxTEGkkd086sDcf2W7CPD0M7ur78eKykstaOlsrtuChy2s220V58P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" alt="W1 Capital"></a>
+    <span style="font-size:13px;color:var(--petroleo-350)">PlayBook W1 Capital &middot; Conteúdo destinado à rede de relacionamento</span>
+  </div>
+  <div class="foot-bottom">© 2026 W1 Capital. Material meramente informativo.</div>
+</div></footer>
+
+</body>
+</html>
